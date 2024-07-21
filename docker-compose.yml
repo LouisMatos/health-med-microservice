@@ -1,0 +1,50 @@
+version: '3'
+
+services:
+
+  postgres:
+    image: postgres:latest
+    container_name: db_healthmed
+    restart: always
+    environment:
+      - POSTGRES_USER=root
+      - POSTGRES_PASSWORD=root
+      - POSTGRES_DB=db_healthmed
+    ports:
+      - "5432:5432"
+    networks:
+      - network_postgres
+    volumes:
+      - healthmed:/var/lib/postgresql/data
+    deploy:
+      resources:
+        limits:
+          cpus: '1'
+          memory: 512M
+
+  pgadmin:
+    image: dpage/pgadmin4:latest
+    container_name: healthmed_web_pgadmin
+    environment:
+      PGADMIN_DEFAULT_EMAIL: "pos@tech.com"
+      PGADMIN_DEFAULT_PASSWORD: "postech123"
+    ports:
+      - "54321:80"
+    networks:
+      - network_postgres
+    depends_on:
+      - postgres
+    deploy:
+      resources:
+        limits:
+          cpus: '0.15'
+          memory: 128M
+
+
+volumes:
+  healthmed:
+    driver: local
+
+networks:
+  network_postgres:
+    driver: bridge
