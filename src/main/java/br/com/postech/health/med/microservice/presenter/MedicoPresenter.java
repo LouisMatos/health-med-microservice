@@ -1,6 +1,9 @@
 package br.com.postech.health.med.microservice.presenter;
 
 import br.com.postech.health.med.microservice.model.Medico;
+import br.com.postech.health.med.microservice.model.MedicoAgenda;
+import br.com.postech.health.med.microservice.model.dto.MedicoAgendaDTO;
+import br.com.postech.health.med.microservice.model.dto.MedicoAuthDTO;
 import br.com.postech.health.med.microservice.model.dto.MedicoDTO;
 import br.com.postech.health.med.microservice.utils.DataMaskingUtil;
 
@@ -30,5 +33,36 @@ public class MedicoPresenter {
     medicoDTO.setEspecialidade(medico.getEspecialidade());
 
     return medicoDTO;
+  }
+
+  public static MedicoAuthDTO toMedicoAuthDTO(Medico medico) {
+
+    MedicoAuthDTO medicoAuthDTO = new MedicoAuthDTO();
+    medicoAuthDTO.setToken(medico.getToken_auth());
+    medicoAuthDTO.setDataValidadeToken(medico.getData_validade_token());
+
+    return medicoAuthDTO;
+  }
+
+  public static MedicoAgenda toMedicoAgenda(MedicoAgendaDTO medicoAgendaDTO) {
+    MedicoAgenda medicoAgenda = new MedicoAgenda();
+
+    medicoAgenda.setCrm(medicoAgendaDTO.getCrm());
+    medicoAgenda.setDataAgenda(medicoAgendaDTO.getDataAgenda());
+    medicoAgenda.setHoraAgenda(medicoAgendaDTO.getHoraAgenda());
+    medicoAgenda.setDisponivel(medicoAgendaDTO.getDisponivel());
+
+    return medicoAgenda;
+  }
+
+  public static MedicoAgendaDTO toMedicoAgendaDTO(MedicoAgenda medicoAgenda) {
+    MedicoAgendaDTO medicoAgendaDTO = new MedicoAgendaDTO();
+
+    medicoAgendaDTO.setCrm(medicoAgenda.getCrm());
+    medicoAgendaDTO.setDataAgenda(medicoAgenda.getDataAgenda());
+    medicoAgendaDTO.setHoraAgenda(medicoAgenda.getHoraAgenda());
+    medicoAgendaDTO.setDisponivel(medicoAgenda.getDisponivel());
+
+    return medicoAgendaDTO;
   }
 }

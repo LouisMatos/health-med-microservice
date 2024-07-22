@@ -1,5 +1,6 @@
 package br.com.postech.health.med.microservice.controller.medico;
 
+import br.com.postech.health.med.microservice.model.dto.MedicoAuthDTO;
 import br.com.postech.health.med.microservice.model.dto.MedicoDTO;
 import br.com.postech.health.med.microservice.service.MedicoService;
 import jakarta.validation.Valid;
@@ -20,7 +21,7 @@ public class MedicoController {
   private MedicoService medicoService;
 
   @PostMapping
-  public ResponseEntity<MedicoDTO> autenticaMedico(@Valid @RequestBody MedicoDTO medicoDTO) {
+  public ResponseEntity<MedicoAuthDTO> autenticaMedico(@Valid @RequestBody MedicoDTO medicoDTO) {
     log.info("Iniciando a autenticação do médico!");
     return ResponseEntity.ok().body(medicoService.autenticaMedico(medicoDTO));
   }
