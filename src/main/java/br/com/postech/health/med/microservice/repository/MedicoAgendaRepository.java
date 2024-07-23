@@ -12,4 +12,6 @@ import java.util.Optional;
 public interface MedicoAgendaRepository extends JpaRepository<MedicoAgenda, Long> {
 
   Optional<MedicoAgenda> findByCrmAndDataAgendaAndHoraAgenda(String crm, String dataAgenda, String horaAgenda);
+
+  Optional<MedicoAgenda> findByIdAndCrm(Long id, String crm);
 }
