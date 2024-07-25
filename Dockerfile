@@ -7,19 +7,13 @@ COPY .mvn .mvn
 COPY pom.xml .
 COPY src src
 
-RUN chmod +x mvnw 
-RUN chmod +x .mvn 
+# Ensure the mvnw script has the correct permissions and line endings
+RUN chmod +x mvnw
+RUN sed -i 's/\r$//' mvnw
 
-#RUN ./mvnw package -DskipTests
-
-# clean up the file
-RUN sed -i 's/\r$//' mvnw 
-# run with the SH path
-RUN /bin/sh mvnw package -DskipTests dependency:resolve
-
-#RUN mkdir -p target/dependency && (cd target/dependency; jar -xf ../*.jar)
+# Run the mvnw script with the correct path
+RUN ./mvnw package -DskipTests dependency:resolve
 
 WORKDIR /app/target
 
-ENTRYPOINT java -jar health-med-microservice-0.0.1-SNAPSHOT.jar
-
+ENTRYPOINT ["java", "-jar", "health-med-microservice-0.0.1-SNAPSHOT.jar"]
