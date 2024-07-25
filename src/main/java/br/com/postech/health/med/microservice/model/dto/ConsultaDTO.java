@@ -4,20 +4,20 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Data;
 
-
 @Data
 @JsonIgnoreProperties
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class PacienteDTO {
+public class ConsultaDTO {
 
   private Long id;
 
-  private String nome;
+  private String token_acesso;
 
-  private String email;
+  private Long paciente_id;
 
-  private String senha;
+  private String crm;
 
-  private String cpf;
+  private String data_agendamento;
 
+  private String hora_agendamento;
 }

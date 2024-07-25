@@ -7,6 +7,8 @@ import br.com.postech.health.med.microservice.model.dto.MedicoAuthDTO;
 import br.com.postech.health.med.microservice.model.dto.MedicoDTO;
 import br.com.postech.health.med.microservice.utils.DataMaskingUtil;
 
+import java.util.List;
+
 public class MedicoPresenter {
 
   public static Medico toMedico(MedicoDTO medicoDTO) {
@@ -64,5 +66,9 @@ public class MedicoPresenter {
     medicoAgendaDTO.setDisponivel(medicoAgenda.getDisponivel());
 
     return medicoAgendaDTO;
+  }
+
+  public static List<MedicoDTO> toMedicoDTOList(List<Medico> medicos) {
+    return medicos.stream().map(MedicoPresenter::toMedicoDTO).toList();
   }
 }

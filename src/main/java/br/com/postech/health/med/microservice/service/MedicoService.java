@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.UUID;
 
 @Service
@@ -49,6 +50,18 @@ public class MedicoService {
     Medico medico = medicoRepository.save(MedicoPresenter.toMedico(medicoDTO));
 
     return MedicoPresenter.toMedicoDTO(medico);
+
+  }
+
+  public List<MedicoDTO> buscarMedicoPorEspecialidade(String especialidade) {
+
+    List<Medico> medicos = medicoRepository.findByEspecialidadeContainingIgnoreCase(especialidade);
+
+    if (medicos.isEmpty()) {
+      throw new NotFoundException("Médico não encontrado!");
+    }
+
+    return MedicoPresenter.toMedicoDTOList(medicos);
 
   }
 }

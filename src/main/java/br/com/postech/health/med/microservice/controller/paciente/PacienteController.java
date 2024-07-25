@@ -33,5 +33,12 @@ public class PacienteController {
     return ResponseEntity.ok().body(pacienteService.autenticaPaciente(pacienteDTO));
   }
 
+  @PostMapping("/agendamento/consulta")
+    public ResponseEntity<ConsultaDTO> agendarConsulta(@Valid @RequestBody ConsultaDTO consultaDTO) {
+        log.info("Iniciando o agendamento da consulta!");
+        return ResponseEntity.ok().body(pacienteService.agendarConsulta(consultaDTO));
+    }
+
+
 
 }

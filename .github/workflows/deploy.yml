@@ -32,7 +32,7 @@ jobs:
       - name: Set up JDK
         uses: actions/setup-java@v2
         with:
-          java-version: '20'
+          java-version: '21'
           distribution: 'adopt'
       - name: Package
         run: mvn package -DskipTests
@@ -49,8 +49,8 @@ jobs:
 
       - name: Build and push Docker image
         run: |
-          docker build -t testeluismatos/jlapp-eks:latest .
-          docker push testeluismatos/jlapp-eks:latest
+          docker build -t testeluismatos/health-med-eks:latest .
+          docker push testeluismatos/health-med-eks:latest
 
   deploy:
     if: github.ref == 'refs/heads/master'

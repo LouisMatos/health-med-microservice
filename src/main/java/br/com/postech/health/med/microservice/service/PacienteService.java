@@ -3,11 +3,13 @@ package br.com.postech.health.med.microservice.service;
 import br.com.postech.health.med.microservice.exception.NotFoundException;
 import br.com.postech.health.med.microservice.model.Medico;
 import br.com.postech.health.med.microservice.model.Paciente;
+import br.com.postech.health.med.microservice.model.dto.ConsultaDTO;
 import br.com.postech.health.med.microservice.model.dto.MedicoAuthDTO;
 import br.com.postech.health.med.microservice.model.dto.PacienteAuthDTO;
 import br.com.postech.health.med.microservice.model.dto.PacienteDTO;
 import br.com.postech.health.med.microservice.presenter.MedicoPresenter;
 import br.com.postech.health.med.microservice.presenter.PacientePresenter;
+import br.com.postech.health.med.microservice.repository.MedicoRepository;
 import br.com.postech.health.med.microservice.repository.PacienteRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -21,6 +23,14 @@ public class PacienteService {
   @Autowired
   private PacienteRepository pacienteRepository;
 
+  @Autowired
+  private MedicoRepository medicoRepository;
+
+
+  @Autowired
+  private PacienteAuthService pacienteAuthService;
+
+
   public PacienteDTO novoPaciente(PacienteDTO pacienteDTO) {
     Paciente paciente = pacienteRepository.save(PacientePresenter.toPaciente(pacienteDTO));
 
@@ -29,7 +39,8 @@ public class PacienteService {
 
   public PacienteAuthDTO autenticaPaciente(PacienteDTO pacienteDTO) {
 
-    Paciente paciente = pacienteRepository.findByIdAndSenha(pacienteDTO.getId(), pacienteDTO.getSenha());
+    Paciente paciente =
+        pacienteRepository.findByIdAndSenha(pacienteDTO.getId(), pacienteDTO.getSenha());
 
     if (paciente != null) {
       // Gera um novo token UUID
@@ -49,5 +60,26 @@ public class PacienteService {
     } else {
       throw new NotFoundException("Paciente não encontrado!");
     }
+  }
+
+  public ConsultaDTO agendarConsulta(ConsultaDTO consultaDTO) {
+
+    pacienteAuthService.autenticarPaciente(consultaDTO.getPaciente_id(), consultaDTO.getToken_acesso());
+
+    Medico medico = medicoRepository.findByCrm(consultaDTO.getCrm());
+    if (medico == null) {
+      throw new NotFoundException("Médico não encontrado!");
+    }
+    // Verifica se o paciente existe na base de dados através do ID
+    Paciente paciente = pacienteRepository.findById(consultaDTO.getPaciente_id()).orElse(null);
+    if (paciente == null) {
+      throw new NotFoundException("Paciente não encontrado!");
+    }
+
+
+
+
+    return null;
+
   }
 }
