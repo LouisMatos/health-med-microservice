@@ -25,4 +25,6 @@ public class MedicoAgenda {
 
   private Boolean disponivel;
 
+
+
 }

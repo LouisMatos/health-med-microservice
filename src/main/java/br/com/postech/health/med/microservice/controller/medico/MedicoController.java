@@ -1,5 +1,6 @@
 package br.com.postech.health.med.microservice.controller.medico;
 
+import br.com.postech.health.med.microservice.model.dto.ConsultaDTO;
 import br.com.postech.health.med.microservice.model.dto.MedicoAuthDTO;
 import br.com.postech.health.med.microservice.model.dto.MedicoDTO;
 import br.com.postech.health.med.microservice.service.MedicoService;
@@ -37,4 +38,10 @@ public class MedicoController {
     log.info("Iniciando a busca do médico com a especialidade: {}", especialidade);
     return ResponseEntity.ok().body(medicoService.buscarMedicoPorEspecialidade(especialidade));
   }
+
+  @PutMapping("/{aceitaRecusa}")
+    public ResponseEntity<ConsultaDTO> aceitaRecusaAgenda(@PathVariable String aceitaRecusa, @RequestParam(name = "agenda_id") Long agenda_id) {
+        log.info("Iniciando a atualização da agenda do médico!");
+        return ResponseEntity.ok().body(medicoService.aceitaRecusaAgenda(agenda_id, aceitaRecusa));
+    }
 }

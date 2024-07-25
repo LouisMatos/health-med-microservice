@@ -55,6 +55,31 @@ public class MedicoAgendaService {
     return MedicoPresenter.toMedicoAgendaDTO(medicoAgendaRepository.save(agenda));
   }
 
+  public MedicoAgendaDTO atualizarAgendaMedicoInter(Long id, String crm, MedicoAgendaDTO medicoAgendaDTO) {
+
+    Optional<MedicoAgenda> medicoAgenda = medicoAgendaRepository.findByIdAndCrm(id, crm);
+
+    if (medicoAgenda.isEmpty()) {
+      throw new NotFoundException("Agenda não encontrada.");
+    }
+
+    MedicoAgenda agenda = medicoAgenda.get();
+
+    agenda.setDataAgenda(medicoAgendaDTO.getDataAgenda());
+    agenda.setHoraAgenda(medicoAgendaDTO.getHoraAgenda());
+    agenda.setDisponivel(medicoAgendaDTO.getDisponivel());
+
+    return MedicoPresenter.toMedicoAgendaDTO(medicoAgendaRepository.save(agenda));
+  }
+
+  public MedicoAgenda buscarAgendaPorCrmDataHora(String crm, String dataAgenda, String horaAgenda) {
+    Optional<MedicoAgenda> agenda = medicoAgendaRepository.findByCrmAndDataAgendaAndHoraAgenda(crm, dataAgenda, horaAgenda);
+    if (agenda.isPresent()) {
+      return agenda.get();
+    } else {
+      throw new NotFoundException("Agenda não encontrada para o médico com CRM " + crm + " na data " + dataAgenda + " e hora " + horaAgenda);
+    }
+  }
 
 
 

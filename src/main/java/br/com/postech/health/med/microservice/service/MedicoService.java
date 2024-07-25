@@ -1,10 +1,16 @@
 package br.com.postech.health.med.microservice.service;
 
 import br.com.postech.health.med.microservice.exception.NotFoundException;
+import br.com.postech.health.med.microservice.model.Consulta;
 import br.com.postech.health.med.microservice.model.Medico;
+import br.com.postech.health.med.microservice.model.MedicoAgenda;
+import br.com.postech.health.med.microservice.model.dto.ConsultaDTO;
 import br.com.postech.health.med.microservice.model.dto.MedicoAuthDTO;
 import br.com.postech.health.med.microservice.model.dto.MedicoDTO;
+import br.com.postech.health.med.microservice.presenter.ConsultaPresenter;
 import br.com.postech.health.med.microservice.presenter.MedicoPresenter;
+import br.com.postech.health.med.microservice.repository.ConsultaRepository;
+import br.com.postech.health.med.microservice.repository.MedicoAgendaRepository;
 import br.com.postech.health.med.microservice.repository.MedicoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -18,6 +24,13 @@ public class MedicoService {
 
   @Autowired
   private MedicoRepository medicoRepository;
+
+  @Autowired
+  private MedicoAgendaRepository medicoAgendaRepository;
+
+  @Autowired
+  private ConsultaRepository consultaRepository;
+
 
 
   public MedicoAuthDTO autenticaMedico(MedicoDTO medicoDTO) {
@@ -63,5 +76,22 @@ public class MedicoService {
 
     return MedicoPresenter.toMedicoDTOList(medicos);
 
+  }
+
+  public ConsultaDTO aceitaRecusaAgenda(Long consultaId , String aceitaRecusa) {
+    Consulta consulta = consultaRepository.findById(consultaId)
+        .orElseThrow(() -> new NotFoundException("Consulta não encontrada!"));
+
+    if (aceitaRecusa.equalsIgnoreCase("Aceita")) {
+      consulta.setStatus("Aceita"); // Aceita a consulta
+    } else if (aceitaRecusa.equalsIgnoreCase("Recusada")) {
+      consulta.setStatus("Recusada"); // Recusa a consulta
+    } else {
+      throw new IllegalArgumentException("Valor inválido para aceitaRecusa. Use 1 para aceitar e 0 para recusar.");
+    }
+
+    consultaRepository.save(consulta);
+
+    return ConsultaPresenter.toConsultaDTO(consulta);
   }
 }

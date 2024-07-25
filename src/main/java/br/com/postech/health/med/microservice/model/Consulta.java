@@ -25,4 +25,6 @@ public class Consulta implements Serializable {
   private String data_agendamento;
 
   private String hora_agendamento;
+
+  private String status;
 }

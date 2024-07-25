@@ -20,4 +20,10 @@ public class ConsultaDTO {
   private String data_agendamento;
 
   private String hora_agendamento;
+
+  private String status;
+
+  //Medico
+  private Long agenda_id;
+
 }
