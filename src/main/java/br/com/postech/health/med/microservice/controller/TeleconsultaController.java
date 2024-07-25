@@ -22,7 +22,6 @@ public class TeleconsultaController {
   @GetMapping("/consulta/{id}")
   public ResponseEntity<TeleConsultaDTO> consultarTeleconsulta(@PathVariable Long id) {
     log.info("Iniciando a consulta da teleconsulta com o id: {} e geração do link", id);
-
     return ResponseEntity.ok().body(teleconsultaService.consultarTeleconsulta(id));
   }
 }
