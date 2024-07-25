@@ -27,4 +27,7 @@ public class Consulta implements Serializable {
   private String hora_agendamento;
 
   private String status;
+
+  private String linkConsulta;
+
 }
